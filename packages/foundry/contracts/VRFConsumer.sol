@@ -31,7 +31,7 @@ contract VRFConsumer is VRFConsumerBaseV2, Ownable, PhatRollupAnchor {
     uint256[] _lastRandom;
 
     modifier onlyAuthorizedCaller() {
-        require(authorizedCallers[msg.sender], "VRFConsumer: Caller must be triggered by PhatSquidFrameNFT");
+        require(authorizedCallers[msg.sender], "VRFConsumer: Caller must be triggered by AA Wallet");
         _;
     }
     constructor(address oracle, address attestor, address nftContract) VRFConsumerBaseV2(oracle) {

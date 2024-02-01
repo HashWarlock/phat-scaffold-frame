@@ -9,8 +9,8 @@ import { encodeAbiParameters, decodeAbiParameters, parseAbiParameters } from "vi
 type HexString = `0x${string}`;
 
 // Defined in ../contracts/VRFOracle.sol
-const requestAbiParams = 'uint256 id, string seed, uint32 numWords';
-const replyAbiParams = 'uint respType, uint256 id, uint256[] data';
+const requestAbiParams = 'uint256 id, string frameMessageBytes, uint256 randomWord';
+const replyAbiParams = 'uint respType, uint256 id, string base64EncSvg';
 
 function decodeRequest(request: HexString): readonly [bigint, string, number] {
   return decodeAbiParameters(parseAbiParameters(requestAbiParams), request);
@@ -251,9 +251,9 @@ export default function main(request: HexString, secrets: string): HexString {
   console.log(`Handle req: ${request}`);
   // Uncomment to debug the `settings` passed in from the Phat Contract UI configuration.
   // console.log(`secrets: ${settings}`);
-  let requestId, nonce, numWords;
+  let requestId, frameMessageBytes, randomWord;
   try {
-    [requestId, nonce, numWords] = decodeRequest(request);
+    [requestId, frameMessageBytes, randomWord] = decodeRequest(request);
   } catch (error) {
     console.info("Malformed request received");
     return encodeReply([TYPE_ERROR, 0n, [BigInt(errorToCode(error as Error))]]);
